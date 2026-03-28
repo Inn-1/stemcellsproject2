@@ -1,0 +1,2082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stem Cells — Medical Moment</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #050d1a;
+      --surface: #0a1628;
+      --surface2: #0f2040;
+      --accent: #00c9ff;
+      --accent2: #7b61ff;
+      --accent3: #00ff9d;
+      --text: #e8f0fe;
+      --muted: #7a90b0;
+      --border: rgba(0,201,255,0.15);
+      --glow: rgba(0,201,255,0.08);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent2), var(--accent3));
+      z-index: 200;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px rgba(0,201,255,0.6);
+    }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2.5rem;
+      background: rgba(5,13,26,0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 2rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,201,255,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(123,97,255,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 20% 70%, rgba(0,255,157,0.06) 0%, transparent 50%);
+    }
+    .particles {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0;
+      animation: float-up linear infinite;
+    }
+    @keyframes float-up {
+      0% { transform: translateY(100vh) scale(0); opacity: 0; }
+      10% { opacity: 0.6; }
+      90% { opacity: 0.2; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(0,201,255,0.1);
+      border: 1px solid rgba(0,201,255,0.3);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.4rem 1.1rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+      animation: fade-in 0.8s ease both;
+    }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+      animation: fade-in 0.9s 0.1s ease both;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+      font-weight: 300;
+      animation: fade-in 1s 0.2s ease both;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      animation: fade-in 1s 0.3s ease both;
+    }
+    .btn {
+      padding: 0.75rem 1.8rem;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.25s;
+      border: none;
+    }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover {
+      background: #33d4ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,201,255,0.3);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--muted);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      animation: fade-in 1s 0.8s ease both;
+    }
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: scroll-pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes scroll-pulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.1); }
+    }
+
+    #cell-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.55;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.25rem;
+      margin: 3rem 0;
+    }
+    .stat-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem 1.25rem;
+      text-align: center;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .stat-box:hover {
+      border-color: rgba(0,201,255,0.35);
+      transform: translateY(-3px);
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    section {
+      padding: 6rem 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .section-intro {
+      color: var(--muted);
+      max-width: 640px;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--glow);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover {
+      border-color: rgba(0,201,255,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,201,255,0.08);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .step-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 1.75rem;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .step-card:hover {
+      border-color: rgba(0,201,255,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,201,255,0.08);
+    }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(0,201,255,0.12);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+      transition: color 0.3s;
+    }
+    .step-card:hover .step-num { color: rgba(0,201,255,0.25); }
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    .step-text { font-size: 0.9rem; color: var(--muted); line-height: 1.7; }
+
+    .types-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .types-tabs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .type-tab {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: left;
+    }
+    .type-tab.active {
+      border-color: var(--accent);
+      background: rgba(0,201,255,0.08);
+    }
+    .type-tab:hover:not(.active) { border-color: rgba(0,201,255,0.3); }
+    .type-tab-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+    .type-tab-sub { font-size: 0.78rem; color: var(--muted); }
+    .type-detail {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .type-detail-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .type-detail-tag {
+      display: inline-block;
+      background: rgba(0,201,255,0.1);
+      border: 1px solid rgba(0,201,255,0.25);
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    .type-detail-text { font-size: 0.92rem; color: var(--muted); line-height: 1.75; }
+
+    .simulator-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+    }
+    .sim-label {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .sim-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .sim-sub { font-size: 0.88rem; color: var(--muted); margin-bottom: 2rem; }
+    .sim-stage {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .sim-cell-area { flex-shrink: 0; }
+    .sim-canvas-wrap {
+      width: 140px;
+      height: 140px;
+      position: relative;
+    }
+    #sim-canvas {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 2px solid rgba(0,201,255,0.3);
+    }
+    .sim-arrow {
+      font-size: 1.8rem;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .sim-targets {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      flex: 1;
+    }
+    .sim-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.75rem 1.1rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      text-align: center;
+      min-width: 90px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .sim-btn:hover {
+      border-color: var(--accent);
+      background: rgba(0,201,255,0.08);
+      transform: translateY(-2px);
+    }
+    .sim-btn.active {
+      border-color: var(--accent2);
+      background: rgba(123,97,255,0.12);
+    }
+    .sim-btn-icon { font-size: 1.5rem; display: block; margin-bottom: 0.2rem; }
+    .sim-btn-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+    .sim-info {
+      margin-top: 1.5rem;
+      padding: 1.25rem 1.5rem;
+      background: var(--surface2);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.7;
+      min-height: 64px;
+      transition: all 0.3s;
+    }
+    .sim-info strong { color: var(--accent); font-weight: 600; }
+
+    .comparison-wrap {
+      margin: 2.5rem 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      position: relative;
+      user-select: none;
+      background: var(--surface);
+    }
+    .comparison-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .comparison-header-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    .comparison-tabs {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .comp-tab {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.2s;
+      letter-spacing: 0.04em;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .comp-tab.active {
+      background: rgba(0,201,255,0.12);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .comparison-body {
+      position: relative;
+      height: 320px;
+      overflow: hidden;
+      cursor: ew-resize;
+    }
+    .comp-panel {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: stretch;
+    }
+    .comp-side {
+      flex: 1;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .comp-left { background: rgba(255,107,107,0.04); border-right: 1px solid rgba(255,107,107,0.2); }
+    .comp-right { background: rgba(0,255,157,0.04); }
+    .comp-side-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .comp-left .comp-side-label { color: #ff6b6b; }
+    .comp-right .comp-side-label { color: var(--accent3); }
+    .comp-side-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .comp-side-text { font-size: 0.84rem; color: var(--muted); line-height: 1.7; }
+    .comp-item { display: flex; gap: 0.6rem; margin-bottom: 0.6rem; font-size: 0.83rem; color: var(--muted); }
+    .comp-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; margin-top: 0.55rem; }
+    .comp-dot-red { background: #ff6b6b; }
+    .comp-dot-green { background: var(--accent3); }
+    .comp-divider {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2));
+      cursor: ew-resize;
+      transform: translateX(-50%);
+      z-index: 10;
+      left: 50%;
+      transition: left 0s;
+      box-shadow: 0 0 12px rgba(0,201,255,0.4);
+    }
+    .comp-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: var(--bg);
+      font-weight: 700;
+      box-shadow: 0 0 16px rgba(0,201,255,0.5);
+    }
+    .comp-clip-left {
+      position: absolute;
+      inset: 0;
+      right: 50%;
+      overflow: hidden;
+      z-index: 5;
+    }
+    .comp-clip-left .comp-panel { width: 200%; }
+
+    .timeline {
+      position: relative;
+      padding-left: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 2.5rem;
+      padding-left: 1.5rem;
+      cursor: pointer;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -2.55rem;
+      top: 0.35rem;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 3px rgba(0,201,255,0.2);
+      transition: box-shadow 0.3s;
+    }
+    .timeline-item:hover .timeline-dot { box-shadow: 0 0 0 6px rgba(0,201,255,0.15); }
+    .timeline-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: var(--text);
+    }
+    .timeline-body {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+    .timeline-body.open { max-height: 400px; }
+    .timeline-toggle {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 0.3rem;
+      display: inline-block;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .pros-card {
+      background: rgba(0,255,157,0.04);
+      border: 1px solid rgba(0,255,157,0.2);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .cons-card {
+      background: rgba(255,80,80,0.04);
+      border: 1px solid rgba(255,80,80,0.2);
+      border-radius: 16px;
+      padding: 2rem;
+    }
+    .pros-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--accent3);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .cons-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #ff6b6b;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .pro-item, .con-item {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .pro-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent3); flex-shrink: 0; margin-top: 0.5rem; }
+    .con-dot { width: 6px; height: 6px; border-radius: 50%; background: #ff6b6b; flex-shrink: 0; margin-top: 0.5rem; }
+
+    .scientists-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .scientist-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2rem;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .scientist-card::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 120px; height: 120px;
+      background: radial-gradient(circle, rgba(0,201,255,0.08), transparent);
+      border-radius: 50%;
+      transform: translate(30%, -30%);
+    }
+    .scientist-card:hover {
+      border-color: rgba(0,201,255,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(0,201,255,0.08);
+    }
+    .scientist-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--bg);
+      margin-bottom: 1.25rem;
+    }
+    .scientist-name {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    .scientist-role {
+      font-size: 0.78rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+    }
+    .scientist-info { display: flex; flex-direction: column; gap: 0.6rem; }
+    .info-row { display: flex; gap: 0.75rem; font-size: 0.85rem; }
+    .info-label {
+      color: var(--muted);
+      min-width: 70px;
+      flex-shrink: 0;
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding-top: 0.05rem;
+    }
+    .info-value { color: var(--text); line-height: 1.5; }
+
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .impact-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      transition: all 0.3s;
+    }
+    .impact-card:hover {
+      border-color: rgba(0,201,255,0.3);
+      transform: translateY(-3px);
+    }
+    .impact-icon { font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--accent); font-weight: 700; }
+    .impact-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .impact-text { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+    .ethics-item {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .ethics-item.open { border-color: rgba(0,201,255,0.4); }
+    .ethics-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 1.5rem;
+      cursor: pointer;
+      background: var(--surface);
+      transition: background 0.2s;
+    }
+    .ethics-header:hover { background: var(--surface2); }
+    .ethics-q {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+    .ethics-arrow { color: var(--accent); font-size: 1rem; transition: transform 0.3s; }
+    .ethics-item.open .ethics-arrow { transform: rotate(180deg); }
+    .ethics-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; background: var(--surface); }
+    .ethics-body.open { max-height: 300px; }
+    .ethics-body-inner { padding: 0 1.5rem 1.25rem; font-size: 0.88rem; color: var(--muted); line-height: 1.75; }
+
+    .quiz-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .quiz-question {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      line-height: 1.4;
+    }
+    .quiz-options { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; }
+    .quiz-option {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.9rem 1.25rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      text-align: left;
+      color: var(--text);
+      transition: all 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .quiz-option:hover:not(:disabled) {
+      border-color: var(--accent);
+      background: rgba(0,201,255,0.08);
+    }
+    .quiz-option.correct { border-color: var(--accent3); background: rgba(0,255,157,0.1); color: var(--accent3); }
+    .quiz-option.wrong { border-color: #ff6b6b; background: rgba(255,107,107,0.1); color: #ff6b6b; }
+    .quiz-feedback { font-size: 0.9rem; margin-bottom: 1.25rem; min-height: 1.5rem; font-weight: 500; }
+    .quiz-feedback.correct { color: var(--accent3); }
+    .quiz-feedback.wrong { color: #ff6b6b; }
+    .quiz-progress { display: flex; gap: 0.4rem; margin-bottom: 1.5rem; }
+    .quiz-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.3s; }
+    .quiz-dot.done { background: var(--accent); }
+    .quiz-dot.current { background: var(--accent2); }
+    .quiz-score { text-align: center; padding: 2rem; }
+    .quiz-score-num { font-family: 'Syne', sans-serif; font-size: 3.5rem; font-weight: 800; color: var(--accent); }
+
+    .effects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
+    }
+    .effect-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    .effect-card:hover {
+      border-color: rgba(123,97,255,0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(123,97,255,0.08);
+    }
+    .effect-icon { font-size: 1.4rem; margin-bottom: 0.75rem; color: var(--accent2); font-weight: 700; }
+    .effect-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--accent2);
+    }
+    .effect-text { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+    footer {
+      text-align: center;
+      padding: 3rem 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+    footer strong { color: var(--accent); }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      .types-container { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .scientists-grid { grid-template-columns: 1fr; }
+      section { padding: 4rem 1.25rem; }
+      .sim-stage { flex-direction: column; }
+      .sim-arrow { transform: rotate(90deg); }
+    }
+
+    .section-alt {
+      background: linear-gradient(to bottom, transparent, rgba(10,22,40,0.5), transparent);
+    }
+  </style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <div class="nav-logo">STEM CELLS</div>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#patient">Patient Journey</a></li>
+    <li><a href="#why">Why It's Used</a></li>
+    <li><a href="#science">The Science</a></li>
+    <li><a href="#effects">Effects</a></li>
+    <li><a href="#proscons">Pros & Cons</a></li>
+    <li><a href="#environment">Environment</a></li>
+    <li><a href="#ethics">Ethics</a></li>
+    <li><a href="#scientists">Scientists</a></li>
+    <li><a href="#quiz">Quiz</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <canvas id="cell-canvas"></canvas>
+  <div class="particles" id="particles"></div>
+  <div class="hero-badge">Biology — Cellular Technology</div>
+  <h1>Your Body's<br/><span>Built-In</span><br/>Repair Kit</h1>
+  <p class="hero-sub">A plain-English guide to stem cells — what they are, how they work, and what actually happens to a patient going through treatment.</p>
+  <div class="hero-cta">
+    <a href="#how" class="btn btn-primary">Start Learning</a>
+    <a href="#quiz" class="btn btn-ghost">Take the Quiz</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    SCROLL
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- STATS -->
+<section class="reveal" style="padding-top:3rem;padding-bottom:3rem;">
+  <div class="stats-row">
+    <div class="stat-box">
+      <div class="stat-num" data-target="200" data-suffix="+">0</div>
+      <div class="stat-label">Different cell types a stem cell can turn into</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" data-target="1" data-prefix="~" data-suffix="M+">0</div>
+      <div class="stat-label">Transplants done around the world so far</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" data-target="1956" data-suffix="">0</div>
+      <div class="stat-label">Year of the first successful bone marrow transplant</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" data-target="4" data-suffix=" factors">0</div>
+      <div class="stat-label">Special proteins needed to reprogram a cell back to basics</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" data-target="80" data-suffix="%+">0</div>
+      <div class="stat-label">Success rate for leukemia patients who get a transplant</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section id="how" class="reveal">
+  <div class="section-label">Section 1</div>
+  <h2 class="section-title">How Stem Cell Therapy Works</h2>
+  <p class="section-intro">Think of stem cells as blank-slate cells — they haven't been given a job yet. That makes them incredibly useful, because the body can use them to build almost anything it needs.</p>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:1.25rem; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase;">Three Main Types — Click to Learn More</h3>
+
+  <div class="types-container" style="margin-bottom:3rem;">
+    <div class="types-tabs">
+      <div class="type-tab active" onclick="showType('esc')">
+        <div class="type-tab-label">Embryonic Stem Cells (ESCs)</div>
+        <div class="type-tab-sub">The most flexible type · Can become anything</div>
+      </div>
+      <div class="type-tab" onclick="showType('adult')">
+        <div class="type-tab-label">Adult Stem Cells</div>
+        <div class="type-tab-sub">Already used in hospitals · More limited</div>
+      </div>
+      <div class="type-tab" onclick="showType('ipsc')">
+        <div class="type-tab-label">Reprogrammed Cells (iPSCs)</div>
+        <div class="type-tab-sub">Made in a lab from your own cells · No ethical issues</div>
+      </div>
+    </div>
+    <div class="type-detail" id="type-detail">
+      <div class="type-detail-title" id="type-name">Embryonic Stem Cells</div>
+      <div class="type-detail-tag" id="type-tag">CAN BECOME ANYTHING</div>
+      <div class="type-detail-text" id="type-text">These come from fertilized eggs at about 4–5 days old, right before the egg has divided enough to start forming a baby. At that stage, the cells haven't been told what to do yet — they can become any of the 200+ types of cells in your body: muscle, nerve, blood, organ tissue, you name it. That makes them incredibly powerful, though using them raises ethical questions about what counts as a developing human life.</div>
+    </div>
+  </div>
+
+  <!-- DIFFERENTIATION SIMULATOR -->
+  <div class="simulator-wrap">
+    <div class="sim-label">Try It Yourself</div>
+    <div class="sim-title">Watch a Stem Cell Change Jobs</div>
+    <div class="sim-sub">Pick a cell type below. The stem cell will transform — this process is called differentiation, which just means "becoming something specific."</div>
+    <div class="sim-stage">
+      <div class="sim-cell-area">
+        <div class="sim-canvas-wrap">
+          <canvas id="sim-canvas" width="140" height="140"></canvas>
+        </div>
+      </div>
+      <div class="sim-arrow">→</div>
+      <div class="sim-targets">
+        <button class="sim-btn" onclick="differentiate('neuron', this)">
+          <span class="sim-btn-icon">🧠</span>
+          <span class="sim-btn-label">Brain Cell</span>
+        </button>
+        <button class="sim-btn" onclick="differentiate('blood', this)">
+          <span class="sim-btn-icon">🩸</span>
+          <span class="sim-btn-label">Blood Cell</span>
+        </button>
+        <button class="sim-btn" onclick="differentiate('muscle', this)">
+          <span class="sim-btn-icon">💪</span>
+          <span class="sim-btn-label">Muscle Cell</span>
+        </button>
+        <button class="sim-btn" onclick="differentiate('bone', this)">
+          <span class="sim-btn-icon">🦴</span>
+          <span class="sim-btn-label">Bone Cell</span>
+        </button>
+        <button class="sim-btn" onclick="differentiate('skin', this)">
+          <span class="sim-btn-icon">🫶</span>
+          <span class="sim-btn-label">Skin Cell</span>
+        </button>
+        <button class="sim-btn" onclick="differentiate('liver', this)">
+          <span class="sim-btn-icon">🫁</span>
+          <span class="sim-btn-label">Liver Cell</span>
+        </button>
+      </div>
+    </div>
+    <div class="sim-info" id="sim-info">Pick a cell type above to see the transformation. The stem cell will change shape to show what it's becoming.</div>
+  </div>
+
+  <h3 style="font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:1.25rem; color:var(--muted); letter-spacing:0.05em; text-transform:uppercase;">The 4-Step Treatment Process</h3>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">Collection</div>
+      <div class="step-text">Stem cells are taken from either the patient themselves or a matching donor. They can come from the bone marrow (the spongy inside of bones), the bloodstream, body fat, or even cord blood saved from a baby's umbilical cord at birth.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">Lab Work</div>
+      <div class="step-text">In a lab, the cells are cleaned up, multiplied, and sometimes nudged toward becoming a specific cell type using special proteins called growth factors — kind of like giving cells instructions before they go to work.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">Delivery</div>
+      <div class="step-text">The cells are put back into the patient through an IV drip (like a blood transfusion), a direct injection into the affected area, or surgery — whichever method makes the most sense for the condition being treated.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <div class="step-title">Taking Hold</div>
+      <div class="step-text">The transplanted cells find their way to the damaged area and get to work — either by turning into the right cell type, releasing chemicals that kick the body's own repair systems into gear, or calming down an overactive immune response.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:1.5rem;">
+    <div style="font-family:'Syne',sans-serif; font-size:0.85rem; font-weight:700; color:var(--accent); margin-bottom:0.75rem; letter-spacing:0.06em; text-transform:uppercase;">Three Ways They Actually Fix Things</div>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap:1.25rem;">
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:0.4rem;">Become the Missing Cell</div>
+        <div style="font-size:0.83rem;color:var(--muted);">The stem cell literally turns into whatever cell the body needs — muscle, nerve, blood, whatever's been damaged. Think of it as replacing a broken part with a brand new one.</div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:0.4rem;">Send Repair Signals</div>
+        <div style="font-size:0.83rem;color:var(--muted);">Even without turning into anything, stem cells release chemical signals that tell the body's own repair crew to get moving. It's less like a replacement part and more like calling in a foreman to speed things up.</div>
+      </div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;margin-bottom:0.4rem;">Calm the Immune System</div>
+        <div style="font-size:0.83rem;color:var(--muted);">Sometimes the body attacks itself — like in MS or arthritis. Certain stem cells can dial down that overreaction and reduce the ongoing damage, giving the body a chance to heal.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PATIENT JOURNEY -->
+<section id="patient" class="section-alt reveal">
+  <div class="section-label">Section 2</div>
+  <h2 class="section-title">What It's Actually Like as a Patient</h2>
+  <p class="section-intro">Every case is different, but most patients go through the same general stages. It's not easy — but here's an honest look at what to expect. Click each stage to read more.</p>
+
+  <div class="timeline">
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Getting the Body Ready</div>
+      <div class="timeline-toggle">Click to expand ↓</div>
+      <div class="timeline-body">
+        Before anything else, doctors have to wipe out the diseased cells and make room for new ones. That means high-dose chemotherapy — sometimes combined with full-body radiation. It's rough. This part kills off the bad cells but also temporarily shuts down your immune system and stops your bones from making blood cells. You'll likely feel nauseous, get mouth sores, and feel wiped out. It's the hardest part of the whole process, but it's necessary to make room for the new cells to move in.
+      </div>
+    </div>
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Collecting the Stem Cells</div>
+      <div class="timeline-toggle">Click to expand ↓</div>
+      <div class="timeline-body">
+        This happens either before or after the prep stage, depending on whether the cells come from you or a donor. One way is to use a big needle to pull cells directly from the bone marrow inside your hip — you're under general anesthesia, so you don't feel a thing. A more common approach now involves injections that push stem cells out of the bone marrow and into your bloodstream, where a machine filters them out — kind of like donating blood, but more involved.
+      </div>
+    </div>
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Day Zero — Transplant Day</div>
+      <div class="timeline-toggle">Click to expand ↓</div>
+      <div class="timeline-body">
+        Ironically, transplant day itself is one of the quieter days. The stem cells go in through a central line — basically a tube in a large vein — just like a blood transfusion. It takes anywhere from one to five hours. You're awake the whole time. The real action happens inside your body over the weeks that follow.
+      </div>
+    </div>
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Waiting for the Cells to Take Hold (10–21 Days)</div>
+      <div class="timeline-toggle">Click to expand ↓</div>
+      <div class="timeline-body">
+        This is called engraftment — when the transplanted cells travel to the bone marrow and start producing new blood cells. During this stretch, your immune system is basically offline, which means even a minor infection can be dangerous. Most patients stay in hospital for three to four weeks. For people who received cells from a donor, there's also a risk called GVHD — where the new immune cells look around at the body and think it's a foreign invader, and start attacking it. Doctors watch for this closely.
+      </div>
+    </div>
+    <div class="timeline-item" onclick="toggleTimeline(this)">
+      <div class="timeline-dot"></div>
+      <div class="timeline-title">Recovery at Home (Months)</div>
+      <div class="timeline-toggle">Click to expand ↓</div>
+      <div class="timeline-body">
+        Getting discharged doesn't mean you're done — not by a long shot. Most patients need six to twelve months before their immune system is working reliably again. You'll be back for frequent check-ups, need to avoid crowds, and take precautions against infection. Many people feel lingering fatigue and mood changes for months. It's a long road, but for diseases like leukemia, it's often the road to being genuinely cured.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY IT'S USED -->
+<section id="why" class="reveal">
+  <div class="section-label">Section 3</div>
+  <h2 class="section-title">Why Use Stem Cell Therapy at All?</h2>
+  <p class="section-intro">The simple answer: regular medicine can manage damage, but it can't undo it. Stem cells can actually rebuild tissue that's already been destroyed.</p>
+
+  <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap:1.5rem; margin-bottom:2rem;">
+    <div class="card">
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;">It Fixes the Problem, Not Just the Pain</div>
+      <div style="font-size:0.85rem;color:var(--muted);line-height:1.7;">Regular medicine is really good at managing symptoms — reducing inflammation, easing pain, slowing things down. But it can't rebuild tissue that's already gone. Stem cells can actually replace damaged cells and repair the underlying problem, instead of just keeping a lid on it.</div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;">No Need to Wait for a Donor Organ</div>
+      <div style="font-size:0.85rem;color:var(--muted);line-height:1.7;">Millions of people are stuck on transplant waiting lists because there just aren't enough donor organs to go around. Stem cells work at the cell level — you don't need a whole new organ. And if the cells come from your own body, there's no matching required and no risk of your body rejecting them.</div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;">It Makes Chemo Way More Powerful</div>
+      <div style="font-size:0.85rem;color:var(--muted);line-height:1.7;">For blood cancers like leukemia, doctors want to use high enough doses of chemo to wipe out the cancer completely — but at those doses, it also destroys the bone marrow. Stem cell therapy fixes that damage, letting doctors use doses that would otherwise be too dangerous. It turns a risky treatment into a potentially life-saving one.</div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.5rem;">Less Invasive Than Surgery</div>
+      <div style="font-size:0.85rem;color:var(--muted);line-height:1.7;">Injecting stem cells directly into a problem area means no large incisions, less blood clot risk, lower chance of infection, and a much shorter recovery compared to traditional open surgery. For many conditions, it's simply a safer way to get the same — or better — results.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCIENCE -->
+<section id="science" class="section-alt reveal">
+  <div class="section-label">Section 4</div>
+  <h2 class="section-title">What Stem Cells Taught Us About Biology</h2>
+  <p class="section-intro">Beyond treating patients, stem cell research flipped some long-held assumptions about how cells work — and reshaped how scientists study disease.</p>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem;">
+    <div class="card">
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.75rem;color:var(--accent);">Cells Can Change Their Minds</div>
+      <div style="font-size:0.87rem;color:var(--muted);line-height:1.75;">Up until 2006, scientists assumed that once a cell had a job — say, being a skin cell — it was stuck with that job forever. A Japanese scientist named Shinya Yamanaka proved that wrong. He showed that by feeding a regular adult cell just four specific proteins, you could basically rewind it back to a blank state. It was huge — it meant that what a cell "is" isn't permanently locked in its DNA. Instead, the cell is constantly being told what to be by chemical switches that turn genes on and off. Change those switches, and you change the cell.</div>
+    </div>
+    <div class="card">
+      <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.75rem;color:var(--accent);">Cancer Has a Chain of Command</div>
+      <div style="font-size:0.87rem;color:var(--muted);line-height:1.75;">We used to think tumors were just a messy pile of out-of-control cells, all equally dangerous. Stem cell research revealed they're actually more organized than that. At the top of the pile is a small group of "cancer stem cells" that act as the leaders — they're the ones driving the tumor's growth and rebuilding it if the rest gets killed off. This matters a lot, because treatments that wipe out the bulk of a tumor but miss those leader cells are essentially fighting a losing battle. The tumor grows back.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin-bottom:0.75rem;color:var(--accent);">Tiny Human Organs — Built in a Lab</div>
+    <div style="font-size:0.87rem;color:var(--muted);line-height:1.75;max-width:800px;">One of the coolest things to come out of stem cell research is something called an organoid — a miniature, 3D version of a human organ grown in a lab from stem cells. It's not a full organ, but it has enough of the same structure that scientists can use it to study how diseases develop and how drugs affect human tissue — without needing to test everything on animals. For drug companies, this is a big deal: you can now test whether a new drug is toxic to a human liver or kidney before it ever goes near a patient. It makes early research faster, cheaper, and more accurate.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EFFECTS -->
+<section id="effects" class="reveal">
+  <div class="section-label">Section 5</div>
+  <h2 class="section-title">What Actually Happens in the Body</h2>
+  <p class="section-intro">Stem cells affect the body in powerful ways — some helpful, some risky. Here's a plain-language breakdown of what can happen.</p>
+
+  <div class="effects-grid">
+    <div class="effect-card">
+      <div class="effect-icon">Heart Repair</div>
+      <div class="effect-title">Heart Muscle Recovery</div>
+      <div class="effect-text">When stem cells are injected into damaged heart tissue, they can help grow new heart muscle and improve how well the heart pumps blood — useful for people recovering from a heart attack.</div>
+    </div>
+    <div class="effect-card">
+      <div class="effect-icon">Blood System</div>
+      <div class="effect-title">Rebuilding the Blood System</div>
+      <div class="effect-text">For leukemia and similar diseases, the whole blood-making system in the bones gets wiped out by chemo and rebuilt from scratch using donor stem cells. This is one of the most common and proven uses of the technology.</div>
+    </div>
+    <div class="effect-card">
+      <div class="effect-icon">Signaling</div>
+      <div class="effect-title">Sending Out Repair Crews</div>
+      <div class="effect-text">Even without turning into new cells directly, stem cells release chemicals that reduce swelling, encourage the body to grow new blood vessels, and speed up healing. Think of them as sending in a support team.</div>
+    </div>
+    <div class="effect-card">
+      <div class="effect-icon">Immune</div>
+      <div class="effect-title">A Stronger Immune System</div>
+      <div class="effect-text">After a successful transplant, patients can end up with a fully rebuilt immune system — especially important for people whose immunity was nearly wiped out by disease or treatment.</div>
+    </div>
+    <div class="effect-card">
+      <div class="effect-icon">Rejection</div>
+      <div class="effect-title">The Body Might Push Back</div>
+      <div class="effect-text">When donor cells are used, the immune system might see them as foreign and try to fight them off. Doctors manage this risk with medications and careful matching, but it's a real concern.</div>
+    </div>
+    <div class="effect-card">
+      <div class="effect-icon">Tumor Risk</div>
+      <div class="effect-title">Rare Chance of Unwanted Growth</div>
+      <div class="effect-text">In rare cases, stem cells that aren't properly controlled could grow in ways you don't want — forming a lump or, in worst-case scenarios, a tumor. Strict Canadian health regulations are in place specifically to prevent this.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROS & CONS -->
+<section id="proscons" class="section-alt reveal">
+  <div class="section-label">Section 6</div>
+  <h2 class="section-title">The Good and the Bad</h2>
+  <p class="section-intro">Like any medical treatment, stem cell therapy isn't perfect. Here's an honest look at both sides.</p>
+
+  <div class="comparison-wrap" id="comp-wrap">
+    <div class="comparison-header">
+      <div class="comparison-header-title">Side-by-Side — Drag the divider to compare</div>
+      <div class="comparison-tabs">
+        <button class="comp-tab active" onclick="switchComp('therapy')">ESC vs iPSC</button>
+        <button class="comp-tab" onclick="switchComp('proscons')">Pros vs Cons</button>
+        <button class="comp-tab" onclick="switchComp('marrow')">Sick vs Healthy Marrow</button>
+      </div>
+    </div>
+    <div class="comparison-body" id="comp-body">
+      <div class="comp-panel" id="comp-right-panel">
+        <div class="comp-side comp-left" id="comp-left-content">Loading...</div>
+        <div class="comp-side comp-right" id="comp-right-content">Loading...</div>
+      </div>
+      <div class="comp-clip-left" id="comp-clip">
+        <div class="comp-panel" id="comp-left-panel">
+          <div class="comp-side comp-left" id="comp-left-content2">Loading...</div>
+          <div class="comp-side comp-right" id="comp-right-content2">Loading...</div>
+        </div>
+      </div>
+      <div class="comp-divider" id="comp-divider">
+        <div class="comp-handle">⇔</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two-col" style="margin-bottom:2rem; margin-top:2rem;">
+    <div class="pros-card">
+      <div class="pros-title">The Upside</div>
+      <div class="pro-item"><div class="pro-dot"></div><div>Can actually repair or replace broken tissue — a potential cure for diseases that nothing else can fix.</div></div>
+      <div class="pro-item"><div class="pro-dot"></div><div>Many treatments use your own cells, which means the body usually won't fight them off.</div></div>
+      <div class="pro-item"><div class="pro-dot"></div><div>Already proven to work for serious conditions including leukemia, some forms of MS, and heart damage.</div></div>
+      <div class="pro-item"><div class="pro-dot"></div><div>Useful in research too — scientists use stem cells to test drugs and understand how diseases develop.</div></div>
+      <div class="pro-item"><div class="pro-dot"></div><div>The future looks promising — treatments tailored to each individual's own cells could cut side effects dramatically.</div></div>
+    </div>
+    <div class="cons-card">
+      <div class="cons-title">The Downside</div>
+      <div class="con-item"><div class="con-dot"></div><div>These treatments are expensive and not available everywhere — a lot of them are still being tested and haven't been approved for general use yet.</div></div>
+      <div class="con-item"><div class="con-dot"></div><div>Donor cells can cause a serious problem called GVHD, where the new immune cells attack the patient's own body.</div></div>
+      <div class="con-item"><div class="con-dot"></div><div>There's a small chance that uncontrolled cell growth leads to a tumor — rare in Canada because of strict oversight.</div></div>
+      <div class="con-item"><div class="con-dot"></div><div>Embryonic stem cells raise ethical concerns because getting them involves destroying a fertilized egg.</div></div>
+      <div class="con-item"><div class="con-dot"></div><div>We still don't know all the long-term effects of some newer therapies — the science is still catching up.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div style="font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;margin-bottom:0.75rem;color:var(--accent2);">Where Things Are Headed</div>
+    <div style="font-size:0.88rem;color:var(--muted);line-height:1.75;">As the research gets better, stem cells could become the backbone of truly personalized medicine — treatments built specifically around your own cells and your own biology. Scientists are also working toward growing full replacement organs in a lab, which could eventually solve the desperate shortage of donor organs. Because all of this is still developing, keeping a close eye on safety, fairness, and ethical standards is just as important as the science itself.</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ENVIRONMENT -->
+<section id="environment" class="reveal">
+  <div class="section-label">Section 7</div>
+  <h2 class="section-title">What's the Environmental Cost?</h2>
+  <p class="section-intro">Stem cell research and treatment have a real environmental footprint — from the lab bench all the way to disposal.</p>
+
+  <div class="impact-grid">
+    <div class="impact-card">
+      <div class="impact-icon">Research Stage</div>
+      <div class="impact-title">In the Lab</div>
+      <div class="impact-text">Labs go through enormous amounts of single-use plastic — pipettes, flasks, gloves, test tubes — all to keep things sterile. The cleaning chemicals and water used in that process can cause problems if they aren't disposed of properly.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">Production</div>
+      <div class="impact-title">Growing the Cells</div>
+      <div class="impact-text">Stem cells need to be kept at exact temperatures and grown in tightly controlled clean rooms. That equipment runs around the clock and uses a lot of electricity. Shipping the cells while keeping them cold adds even more emissions on top.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">Clinical Use</div>
+      <div class="impact-title">At the Hospital</div>
+      <div class="impact-text">Every treatment requires a pile of single-use supplies — syringes, IV bags, gowns, sterile containers. That adds up fast. The freezers and monitoring machines needed to keep cells and patients safe also burn through significant energy.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">Waste</div>
+      <div class="impact-title">Getting Rid of Leftovers</div>
+      <div class="impact-text">Leftover stem cells, biological material, and lab chemicals can't just go in the trash — they need to be incinerated or processed as biohazardous waste, which releases greenhouse gases. Strict procedures prevent contamination, but it's never zero impact.</div>
+    </div>
+    <div class="impact-card">
+      <div class="impact-icon">Green Future</div>
+      <div class="impact-title">Getting Cleaner</div>
+      <div class="impact-text">Some companies are making real progress — using recyclable packaging, setting up environmental management standards, and developing closed production systems that cut emissions by up to half compared to older methods. It's not solved yet, but people are working on it.</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ETHICS -->
+<section id="ethics" class="section-alt reveal">
+  <div class="section-label">Section 8</div>
+  <h2 class="section-title">The Big Ethical Questions</h2>
+  <p class="section-intro">Stem cell technology raises some genuinely hard questions — about where cells come from, who gets access, and how far science should go. Click each one to dig in.</p>
+
+  <div style="max-width:720px;">
+    <div class="ethics-item" onclick="toggleEthics(this)">
+      <div class="ethics-header">
+        <div class="ethics-q">Is It Okay to Use Embryos?</div>
+        <div class="ethics-arrow">↓</div>
+      </div>
+      <div class="ethics-body">
+        <div class="ethics-body-inner">This one divides people. Embryonic stem cells are harvested from fertilized eggs — and doing that destroys the embryo. Some people believe life begins at fertilization, which makes that unacceptable. Others argue the embryos used in research are already leftover from IVF clinics and would be discarded anyway. In Canada, the law only allows researchers to use leftover IVF embryos with the full consent of the donors. Most treatments today use adult stem cells or lab-reprogrammed cells (iPSCs) instead, which skips this issue entirely.</div>
+      </div>
+    </div>
+    <div class="ethics-item" onclick="toggleEthics(this)">
+      <div class="ethics-header">
+        <div class="ethics-q">Do People Know What They're Agreeing To?</div>
+        <div class="ethics-arrow">↓</div>
+      </div>
+      <div class="ethics-body">
+        <div class="ethics-body-inner">Before anyone's cells can be used in research or treatment, they have to clearly understand and agree to it — that's called informed consent. It means explaining the risks, the potential benefits, and exactly how their cells will be used. For patients, it also means being upfront about what the treatment might and might not do. No one should be signing something they don't fully understand.</div>
+      </div>
+    </div>
+    <div class="ethics-item" onclick="toggleEthics(this)">
+      <div class="ethics-header">
+        <div class="ethics-q">Is This Treatment Available to Everyone?</div>
+        <div class="ethics-arrow">↓</div>
+      </div>
+      <div class="ethics-body">
+        <div class="ethics-body-inner">Right now, stem cell treatments are expensive and mostly only available at specialized research hospitals. That means not everyone has equal access — which is a fairness problem. In Canada, the government reviews new therapies before approving them to make sure they work and that they're being distributed fairly. There's also a growing problem of people traveling to other countries for unproven stem cell treatments that haven't been properly tested — that's risky and something Canadian health authorities actively warn against.</div>
+      </div>
+    </div>
+    <div class="ethics-item" onclick="toggleEthics(this)">
+      <div class="ethics-header">
+        <div class="ethics-q">Where Should the Line Be?</div>
+        <div class="ethics-arrow">↓</div>
+      </div>
+      <div class="ethics-body">
+        <div class="ethics-body-inner">Some people feel uneasy about the idea of using technology to alter or repair the human body at such a fundamental level. There are real questions about where the limits should be. Because of this, Canadian research operates under strict ethical guidelines — designed to make sure the science is used to reduce suffering and protect patients, not to push boundaries for their own sake.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCIENTISTS -->
+<section id="scientists" class="reveal">
+  <div class="section-label">Featured Researchers</div>
+  <h2 class="section-title">Two Canadians Leading the Way</h2>
+  <p class="section-intro">Meet the scientists doing the real work — both from Canada, both shaping how stem cells are used around the world.</p>
+
+  <div class="scientists-grid">
+    <div class="scientist-card">
+      <div class="scientist-avatar">JD</div>
+      <div class="scientist-name">Dr. John E. Dick</div>
+      <div class="scientist-role">Cancer Stem Cell Pioneer</div>
+      <div class="scientist-info">
+        <div class="info-row">
+          <div class="info-label">From</div>
+          <div class="info-value">Rural Winnipeg, Manitoba</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Education</div>
+          <div class="info-value">Ph.D. from the University of Manitoba; further training at the Ontario Cancer Institute in Toronto</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Works At</div>
+          <div class="info-value">Princess Margaret Cancer Centre and the McEwen Centre for Regenerative Medicine; Professor at the University of Toronto</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Known For</div>
+          <div class="info-value">In 1994, he was the first scientist ever to find cancer stem cells in human leukemia — proving that tumors have a leadership structure. That discovery changed how cancer is treated around the world. He won the Canada Gairdner International Award in 2022.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scientist-card">
+      <div class="scientist-avatar" style="background:linear-gradient(135deg,var(--accent2),var(--accent3));">HA</div>
+      <div class="scientist-name">Dr. Harold Atkins</div>
+      <div class="scientist-role">Stem Cell Transplant Doctor</div>
+      <div class="scientist-info">
+        <div class="info-row">
+          <div class="info-label">From</div>
+          <div class="info-value">Ottawa, Ontario</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Education</div>
+          <div class="info-value">B.Medical Science and M.D. from the University of Ottawa; specialized training at multiple institutions including the Ontario Cancer Institute</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Works At</div>
+          <div class="info-value">The Ottawa Hospital's Transplant and Cell Therapy Program; Senior Researcher at the Ottawa Hospital Research Institute; Associate Professor at the University of Ottawa</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">Known For</div>
+          <div class="info-value">He treats real patients — people with leukemia, multiple sclerosis, and serious blood diseases — using stem cell transplants. He also researches how to make those transplants safer and more likely to work the first time.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- QUIZ -->
+<section id="quiz" class="section-alt reveal">
+  <div class="section-label">Test Your Knowledge</div>
+  <h2 class="section-title">Quick Quiz</h2>
+  <p class="section-intro">Think you've got it? Let's find out.</p>
+
+  <div class="quiz-container">
+    <div class="quiz-progress" id="quiz-progress"></div>
+    <div id="quiz-content"></div>
+  </div>
+</section>
+
+<footer>
+  <div style="margin-bottom:0.5rem;">
+    <strong>Stem Cell Technology — Medical Moment</strong>
+  </div>
+  <div>Biology · Cellular Technologies in Science</div>
+  <div style="margin-top:0.5rem; font-size:0.75rem;">Built for educational purposes · Information sourced from Mayo Clinic, PMC/NCBI, the Canadian Encyclopedia, and peer-reviewed research</div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.body.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    document.getElementById('progress-bar').style.width = pct + '%';
+  });
+
+  const container = document.getElementById('particles');
+  const colors = ['rgba(0,201,255,0.5)', 'rgba(123,97,255,0.5)', 'rgba(0,255,157,0.4)'];
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 8 + 4;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*8}s;
+      filter: blur(${Math.random()*2}px);
+    `;
+    container.appendChild(p);
+  }
+
+  (function() {
+    const canvas = document.getElementById('cell-canvas');
+    const ctx = canvas.getContext('2d');
+    let cells = [];
+    let W, H;
+
+    function resize() {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    class Cell {
+      constructor(x, y, r, color, vx, vy) {
+        this.x = x || Math.random() * W;
+        this.y = y || Math.random() * H;
+        this.r = r || Math.random() * 18 + 10;
+        this.targetR = this.r;
+        this.color = color || colors[Math.floor(Math.random() * colors.length)];
+        this.vx = vx !== undefined ? vx : (Math.random() - 0.5) * 0.4;
+        this.vy = vy !== undefined ? vy : (Math.random() - 0.5) * 0.4;
+        this.phase = Math.random() * Math.PI * 2;
+        this.divideTimer = Math.random() * 400 + 200;
+        this.dividing = false;
+        this.divideProgress = 0;
+        this.alpha = 0;
+        this.fadeIn = true;
+        this.nucleus = { x: 0, y: 0, r: this.r * 0.38 };
+      }
+      update() {
+        if (this.fadeIn) {
+          this.alpha = Math.min(1, this.alpha + 0.02);
+          if (this.alpha >= 1) this.fadeIn = false;
+        }
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.x < -this.r * 2) this.x = W + this.r;
+        if (this.x > W + this.r * 2) this.x = -this.r;
+        if (this.y < -this.r * 2) this.y = H + this.r;
+        if (this.y > H + this.r * 2) this.y = -this.r;
+        this.phase += 0.015;
+        this.r = this.targetR + Math.sin(this.phase) * 1.5;
+        if (!this.dividing) {
+          this.divideTimer--;
+          if (this.divideTimer <= 0 && cells.length < 25) {
+            this.dividing = true;
+            this.divideProgress = 0;
+          }
+        } else {
+          this.divideProgress += 0.012;
+          if (this.divideProgress >= 1) {
+            this.dividing = false;
+            this.divideTimer = Math.random() * 500 + 300;
+            if (cells.length < 25) {
+              cells.push(new Cell(this.x + this.targetR * 1.5, this.y, this.targetR * 0.75, this.color, -this.vx * 0.8, this.vy * 0.8));
+            }
+          }
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.alpha * 0.65;
+        if (this.dividing) {
+          const sep = this.divideProgress * this.targetR * 0.9;
+          ctx.beginPath();
+          ctx.ellipse(this.x - sep * 0.5, this.y, this.targetR * (1 - this.divideProgress * 0.15), this.targetR, 0, 0, Math.PI * 2);
+          const gL = ctx.createRadialGradient(this.x - sep * 0.5 - 3, this.y - 3, 1, this.x - sep * 0.5, this.y, this.targetR);
+          gL.addColorStop(0, this.color.replace('0.5', '0.7').replace('0.4', '0.6'));
+          gL.addColorStop(1, this.color.replace('0.5', '0.15').replace('0.4', '0.1'));
+          ctx.fillStyle = gL;
+          ctx.fill();
+          ctx.beginPath();
+          ctx.ellipse(this.x + sep * 0.5, this.y, this.targetR * (1 - this.divideProgress * 0.15), this.targetR, 0, 0, Math.PI * 2);
+          const gR = ctx.createRadialGradient(this.x + sep * 0.5 - 3, this.y - 3, 1, this.x + sep * 0.5, this.y, this.targetR);
+          gR.addColorStop(0, this.color.replace('0.5', '0.7').replace('0.4', '0.6'));
+          gR.addColorStop(1, this.color.replace('0.5', '0.15').replace('0.4', '0.1'));
+          ctx.fillStyle = gR;
+          ctx.fill();
+        } else {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          const g = ctx.createRadialGradient(this.x - 3, this.y - 3, 1, this.x, this.y, this.r);
+          g.addColorStop(0, this.color.replace('0.5', '0.55').replace('0.4', '0.5'));
+          g.addColorStop(1, this.color.replace('0.5', '0.08').replace('0.4', '0.06'));
+          ctx.fillStyle = g;
+          ctx.fill();
+          ctx.strokeStyle = this.color.replace('0.5','0.3').replace('0.4','0.25');
+          ctx.lineWidth = 1;
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.arc(this.x + this.r * 0.1, this.y - this.r * 0.05, this.r * 0.36, 0, Math.PI * 2);
+          ctx.fillStyle = this.color.replace('0.5','0.2').replace('0.4','0.18');
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+    }
+
+    for (let i = 0; i < 12; i++) cells.push(new Cell());
+    function animate() {
+      ctx.clearRect(0, 0, W, H);
+      cells.forEach(c => { c.update(); c.draw(); });
+      if (cells.length > 25) cells.splice(0, cells.length - 25);
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const suffix = el.dataset.suffix || '';
+    const prefix = el.dataset.prefix || '';
+    const duration = 1800;
+    const start = performance.now();
+    function update(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const current = Math.round(eased * target);
+      el.textContent = prefix + current.toLocaleString() + suffix;
+      if (t < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
+  }
+
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('[data-target]').forEach(el => {
+          if (!el.dataset.counted) {
+            el.dataset.counted = '1';
+            animateCounter(el);
+          }
+        });
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(r => observer.observe(r));
+
+  const typeData = {
+    esc: {
+      name: 'Embryonic Stem Cells (ESCs)',
+      tag: 'CAN BECOME ANYTHING',
+      text: 'These come from fertilized eggs at about 4–5 days old, right before the egg has divided enough to start forming a baby. At that stage, the cells haven\'t been told what to do yet — they can become any of the 200+ types of cells in your body: muscle, nerve, blood, organ tissue, you name it. That makes them incredibly powerful, though using them raises ethical questions about what counts as a developing human life.'
+    },
+    adult: {
+      name: 'Adult Stem Cells',
+      tag: 'ALREADY IN USE',
+      text: 'These live in your body right now — in your bone marrow, fat tissue, gut lining, and other places. They can produce certain types of cells but are more limited than embryonic ones. A blood stem cell in your bone marrow, for instance, can make all kinds of blood cells — but it won\'t turn into a brain cell or a skin cell. These are the safest and most widely used type, with no ethical concerns attached.'
+    },
+    ipsc: {
+      name: 'Reprogrammed Stem Cells (iPSCs)',
+      tag: 'BUILT FROM YOUR OWN CELLS',
+      text: 'Scientists can take a regular cell from your body — say, a skin cell — and essentially rewind it back into a blank-slate stem cell in a lab. This was first figured out by a Japanese researcher named Shinya Yamanaka in 2006, using just four specific proteins. The result is a stem cell that\'s just as flexible as an embryonic one, but made from your own cells — meaning no rejection risk, no ethical issues, and huge potential for personalized treatment.'
+    }
+  };
+
+  function showType(key) {
+    document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    const d = typeData[key];
+    document.getElementById('type-name').textContent = d.name;
+    document.getElementById('type-tag').textContent = d.tag;
+    document.getElementById('type-text').textContent = d.text;
+  }
+
+  const simInfo = {
+    neuron: {
+      label: 'Brain Cell (Neuron)',
+      color: '#7b61ff',
+      desc: '<strong>Brain Cell (Neuron):</strong> Neurons carry electrical signals through your brain and nervous system — basically the wiring of your body. A stem cell becomes a neuron when it\'s exposed to specific proteins called nerve growth factors. As it transforms, it grows long "arms" (axons) and branching "fingers" (dendrites) to connect with other cells.'
+    },
+    blood: {
+      label: 'Red Blood Cell',
+      color: '#ff6b6b',
+      desc: '<strong>Red Blood Cell:</strong> These carry oxygen from your lungs to every cell in your body. Your bone marrow pumps out billions of them every single day. Blood stem cells are constantly dividing and maturing into new red blood cells — when they\'re fully grown, they actually lose their nucleus, which is unusual for cells.'
+    },
+    muscle: {
+      label: 'Muscle Cell',
+      color: '#00c9ff',
+      desc: '<strong>Muscle Cell (Myocyte):</strong> These are the cells that contract to make you move. Stem cells can be directed to become skeletal muscle (the kind you control), heart muscle, or smooth muscle (the kind in your organs). A protein called MyoD acts like an on-switch for the process, producing the long, striated fibers you can see under a microscope.'
+    },
+    bone: {
+      label: 'Bone Cell (Osteoblast)',
+      color: '#ffd166',
+      desc: '<strong>Bone Cell (Osteoblast):</strong> These build and maintain the framework of your bones by secreting collagen and calcium. They\'re what makes fractures heal. Stem cells in your bone marrow are constantly making new ones throughout your life. The process is triggered by a chemical pathway called Wnt signaling.'
+    },
+    skin: {
+      label: 'Skin Cell',
+      color: '#00ff9d',
+      desc: '<strong>Skin Cell (Keratinocyte):</strong> The main type of cell in your outer skin layer. They form a tough protective barrier for your entire body. Skin stem cells in the deepest layer of the skin are constantly dividing and pushing new cells upward to replace the ones that shed off — your skin completely replaces itself roughly every 2–4 weeks.'
+    },
+    liver: {
+      label: 'Liver Cell',
+      color: '#ff9f1c',
+      desc: '<strong>Liver Cell (Hepatocyte):</strong> Your liver does over 500 different jobs — filtering your blood, producing bile to digest fat, and regulating blood sugar, among others. It\'s one of the few organs that can actually regenerate itself, partly thanks to liver stem cells. Scientists now grow stem-cell-derived liver cells in labs to test whether new drugs are toxic before they go near patients.'
+    }
+  };
+
+  let simCanvas = document.getElementById('sim-canvas');
+  let simCtx = simCanvas.getContext('2d');
+  let simPhase = 0;
+  let simTarget = null;
+  let simTransition = 0;
+  let simAnimId = null;
+
+  function drawStemCell(ctx, cx, cy, r, progress, targetColor) {
+    ctx.clearRect(0, 0, 140, 140);
+    const baseColor = '#00c9ff';
+    const tc = targetColor || baseColor;
+    const glow = ctx.createRadialGradient(cx, cy, r * 0.5, cx, cy, r * 1.4);
+    glow.addColorStop(0, tc + '30');
+    glow.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(cx, cy, r * 1.4, 0, Math.PI * 2);
+    ctx.fillStyle = glow;
+    ctx.fill();
+    const wobble = Math.sin(simPhase * 2) * 3 * (1 - progress);
+    ctx.beginPath();
+    ctx.ellipse(cx + wobble, cy, r - wobble * 0.3, r + wobble * 0.3, simPhase * 0.1, 0, Math.PI * 2);
+    const bodyGrad = ctx.createRadialGradient(cx - r * 0.3, cy - r * 0.3, 2, cx, cy, r);
+    bodyGrad.addColorStop(0, interpolateColor('#00c9ff', tc, progress) + 'cc');
+    bodyGrad.addColorStop(1, interpolateColor('#00c9ff', tc, progress) + '22');
+    ctx.fillStyle = bodyGrad;
+    ctx.fill();
+    ctx.strokeStyle = interpolateColor('#00c9ff', tc, progress) + '88';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    const nucR = r * (0.38 - progress * 0.08);
+    ctx.beginPath();
+    ctx.arc(cx + r * 0.1, cy - r * 0.05, nucR, 0, Math.PI * 2);
+    ctx.fillStyle = interpolateColor('#00c9ff', tc, progress) + '44';
+    ctx.fill();
+    ctx.strokeStyle = interpolateColor('#00c9ff', tc, progress) + '66';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    if (progress > 0.3) {
+      const extCount = Math.floor(progress * 6);
+      for (let i = 0; i < extCount; i++) {
+        const angle = (i / 6) * Math.PI * 2 + simPhase * 0.05;
+        const extLen = (progress - 0.3) / 0.7 * r * 0.9;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(angle) * r * 0.85, cy + Math.sin(angle) * r * 0.85);
+        ctx.lineTo(cx + Math.cos(angle) * (r + extLen), cy + Math.sin(angle) * (r + extLen));
+        ctx.strokeStyle = tc + '80';
+        ctx.lineWidth = 2.5 - i * 0.1;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.arc(cx + Math.cos(angle) * (r + extLen), cy + Math.sin(angle) * (r + extLen), 3, 0, Math.PI * 2);
+        ctx.fillStyle = tc + 'aa';
+        ctx.fill();
+      }
+    }
+  }
+
+  function interpolateColor(a, b, t) {
+    const parse = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+    const toHex = v => v.toString(16).padStart(2,'0');
+    if (!b || b.length < 7) return a;
+    try {
+      const [ar,ag,ab] = parse(a);
+      const [br,bg,bb] = parse(b);
+      return '#' + toHex(Math.round(ar + (br-ar)*t)) + toHex(Math.round(ag + (bg-ag)*t)) + toHex(Math.round(ab + (bb-ab)*t));
+    } catch(e) { return a; }
+  }
+
+  function simLoop() {
+    simPhase += 0.04;
+    if (simTarget) {
+      simTransition = Math.min(1, simTransition + 0.018);
+    } else {
+      simTransition = Math.max(0, simTransition - 0.03);
+    }
+    drawStemCell(simCtx, 70, 70, 48, simTransition, simTarget ? simInfo[simTarget].color : null);
+    simAnimId = requestAnimationFrame(simLoop);
+  }
+  simLoop();
+
+  function differentiate(type, btn) {
+    document.querySelectorAll('.sim-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    if (simTarget === type) {
+      simTarget = null;
+      simTransition = 0;
+      document.getElementById('sim-info').innerHTML = 'Pick a cell type above to see the transformation. The stem cell will change shape to show what it\'s becoming.';
+      btn.classList.remove('active');
+      return;
+    }
+    simTarget = type;
+    simTransition = 0;
+    const info = simInfo[type];
+    document.getElementById('sim-info').innerHTML = info.desc;
+  }
+
+  function toggleTimeline(el) {
+    const body = el.querySelector('.timeline-body');
+    const toggle = el.querySelector('.timeline-toggle');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    toggle.textContent = isOpen ? 'Click to expand ↓' : 'Click to collapse ↑';
+  }
+
+  function toggleEthics(el) {
+    const body = el.querySelector('.ethics-body');
+    const isOpen = el.classList.contains('open');
+    document.querySelectorAll('.ethics-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.ethics-body').classList.remove('open');
+    });
+    if (!isOpen) {
+      el.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+
+  const compData = {
+    therapy: {
+      leftLabel: 'EMBRYONIC STEM CELLS (ESCs)',
+      rightLabel: 'REPROGRAMMED CELLS (iPSCs)',
+      leftTitle: 'Naturally Flexible',
+      rightTitle: 'Built in a Lab',
+      leftItems: [
+        'Taken from fertilized eggs at 4–5 days old',
+        'Can become literally any cell type naturally',
+        'Raises ethical concerns — embryo is destroyed to get them',
+        'Risk of rejection — not the patient\'s own cells',
+        'A donor or leftover IVF embryo is always needed',
+      ],
+      rightItems: [
+        'Made by rewinding the patient\'s own adult cells in a lab',
+        'Just as flexible as embryonic cells after reprogramming',
+        'No embryos involved — no ethical concerns',
+        'No rejection risk — the cells already belong to the patient',
+        'The strongest option for personalized, tailored treatment',
+      ]
+    },
+    proscons: {
+      leftLabel: 'WHAT CAN GO WRONG',
+      rightLabel: 'WHAT CAN GO RIGHT',
+      leftTitle: 'The Downsides',
+      rightTitle: 'The Upsides',
+      leftItems: [
+        'Can be very expensive and hard to access for most people',
+        'Donor cells can trigger GVHD — the new cells attack the patient\'s body',
+        'Long recovery period — rebuilding the immune system takes months',
+        'Small chance that uncontrolled cells cause a tumor',
+        'Many newer treatments are still being tested — not yet proven',
+      ],
+      rightItems: [
+        'Can actually cure, not just manage — potential to fix the underlying problem',
+        'Using your own cells means your body probably won\'t fight them off',
+        'Already works for leukemia, multiple sclerosis, and heart damage',
+        'Lets doctors use stronger chemo doses that would otherwise be too dangerous',
+        'The field is advancing fast — new treatments coming every year',
+      ]
+    },
+    marrow: {
+      leftLabel: 'DISEASED BONE MARROW',
+      rightLabel: 'HEALTHY BONE MARROW',
+      leftTitle: 'Before Treatment',
+      rightTitle: 'After the Cells Take Hold',
+      leftItems: [
+        'Cancerous or broken stem cells have taken over',
+        'The body can\'t make normal blood cells properly',
+        'The immune system is either compromised or attacking the body',
+        'In leukemia: bad cells crowd out the healthy ones',
+        'Patient feels exhausted, bruises easily, keeps getting infections',
+      ],
+      rightItems: [
+        'Transplanted stem cells find their way to the marrow and settle in',
+        'New healthy blood cells start forming within 10–21 days',
+        'The immune system slowly rebuilds over 6–12 months',
+        'Normal levels of red cells, white cells, and platelets return',
+        'Patient regains energy, immune protection, and overall health',
+      ]
+    }
+  };
+
+  let currentComp = 'therapy';
+  let isDragging = false;
+  let compPos = 50;
+
+  function renderComp() {
+    const d = compData[currentComp];
+    function makeContent(side) {
+      const items = side === 'left' ? d.leftItems : d.rightItems;
+      const label = side === 'left' ? d.leftLabel : d.rightLabel;
+      const title = side === 'left' ? d.leftTitle : d.rightTitle;
+      const dotClass = side === 'left' ? 'comp-dot comp-dot-red' : 'comp-dot comp-dot-green';
+      return `
+        <div class="comp-side-label">${label}</div>
+        <div class="comp-side-title">${title}</div>
+        ${items.map(i => `<div class="comp-item"><div class="${dotClass}"></div><div>${i}</div></div>`).join('')}
+      `;
+    }
+    document.getElementById('comp-left-content').innerHTML = makeContent('left');
+    document.getElementById('comp-left-content2').innerHTML = makeContent('left');
+    document.getElementById('comp-right-content').innerHTML = makeContent('right');
+    document.getElementById('comp-right-content2').innerHTML = makeContent('right');
+  }
+
+  function setCompPos(pct) {
+    compPos = Math.max(10, Math.min(90, pct));
+    document.getElementById('comp-divider').style.left = compPos + '%';
+    document.getElementById('comp-clip').style.right = (100 - compPos) + '%';
+  }
+
+  function switchComp(key) {
+    currentComp = key;
+    document.querySelectorAll('.comp-tab').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    renderComp();
+  }
+
+  const compBody = document.getElementById('comp-body');
+  const divider = document.getElementById('comp-divider');
+
+  divider.addEventListener('mousedown', (e) => { isDragging = true; e.preventDefault(); });
+  compBody.addEventListener('touchstart', (e) => { isDragging = true; }, { passive: true });
+
+  document.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const rect = compBody.getBoundingClientRect();
+    const pct = ((e.clientX - rect.left) / rect.width) * 100;
+    setCompPos(pct);
+  });
+  document.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const rect = compBody.getBoundingClientRect();
+    const pct = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
+    setCompPos(pct);
+  }, { passive: true });
+  document.addEventListener('mouseup', () => { isDragging = false; });
+  document.addEventListener('touchend', () => { isDragging = false; });
+
+  renderComp();
+  setCompPos(50);
+
+  const questions = [
+    {
+      q: 'What does it mean for a stem cell to be able to "become anything"?',
+      options: ['It can only make blood cells', 'It can turn into any of the 200+ cell types in the human body', 'It has already picked a job', 'It only comes from adult tissue'],
+      answer: 1,
+      explain: 'A stem cell that hasn\'t been assigned a job yet can become virtually any of the 200+ specialized cell types in your body — muscle, nerve, blood, you name it.'
+    },
+    {
+      q: 'What happens to the patient\'s body before a stem cell transplant?',
+      options: ['They do physical therapy to get stronger', 'They go through high-dose chemotherapy to wipe out the diseased bone marrow', 'They receive the stem cells by injection', 'They rest at home for a few weeks'],
+      answer: 1,
+      explain: 'Before the transplant, doctors use high-dose chemotherapy (sometimes with radiation) to kill the diseased cells and clear space in the bone marrow for the new stem cells to move in.'
+    },
+    {
+      q: 'What is GVHD?',
+      options: ['When the body rejects the transplant entirely', 'When the new immune cells mistake the patient\'s own body for an enemy and attack it', 'A side effect caused by chemotherapy', 'When stem cells grow into a tumor'],
+      answer: 1,
+      explain: 'GVHD (graft-versus-host disease) happens when the transplanted immune cells from a donor look around at the patient\'s body and treat it like a foreign invader — and start attacking it.'
+    },
+    {
+      q: 'Why are reprogrammed stem cells (iPSCs) such a big deal?',
+      options: ['They come from embryos', 'They only work for blood diseases', 'They\'re made from the patient\'s own cells, so there\'s no rejection risk and no ethical concerns', 'They\'re faster to produce than other types'],
+      answer: 2,
+      explain: 'iPSCs are made by rewinding regular cells back to a blank state in a lab. Because they use the patient\'s own cells, the body won\'t reject them — and no embryos are needed.'
+    },
+    {
+      q: 'What did Dr. John Dick discover in 1994?',
+      options: ['The first reprogrammed stem cell', 'Cancer stem cells in human leukemia — proving tumors have a leadership structure', 'The bone marrow transplant procedure', 'A cure for multiple sclerosis'],
+      answer: 1,
+      explain: 'Dr. Dick was the first to find cancer stem cells in human leukemia, showing that tumors aren\'t just a random pile of bad cells — they have a hierarchy, driven by a small group of powerful stem-like cells at the top.'
+    },
+    {
+      q: 'How long can it take to fully recover after a stem cell transplant?',
+      options: ['A few days', '2–3 weeks', '6–12 months or even longer', 'Exactly 100 days'],
+      answer: 2,
+      explain: 'It usually takes 6 to 12 months — sometimes longer — for blood counts to get back to normal and for the immune system to work properly again.'
+    }
+  ];
+
+  let current = 0, score = 0, answered = false;
+
+  function buildProgress() {
+    const prog = document.getElementById('quiz-progress');
+    prog.innerHTML = questions.map((_, i) => `<div class="quiz-dot ${i < current ? 'done' : i === current ? 'current' : ''}"></div>`).join('');
+  }
+
+  function renderQuestion() {
+    answered = false;
+    buildProgress();
+    const q = questions[current];
+    document.getElementById('quiz-content').innerHTML = `
+      <div class="quiz-question">${current + 1} / ${questions.length} — ${q.q}</div>
+      <div class="quiz-options">
+        ${q.options.map((o, i) => `<button class="quiz-option" onclick="answer(${i})">${o}</button>`).join('')}
+      </div>
+      <div class="quiz-feedback" id="quiz-feedback"></div>
+    `;
+  }
+
+  function answer(idx) {
+    if (answered) return;
+    answered = true;
+    const q = questions[current];
+    const buttons = document.querySelectorAll('.quiz-option');
+    const feedback = document.getElementById('quiz-feedback');
+    buttons.forEach(b => b.disabled = true);
+    if (idx === q.answer) {
+      score++;
+      buttons[idx].classList.add('correct');
+      feedback.textContent = 'Correct. ' + q.explain;
+      feedback.className = 'quiz-feedback correct';
+    } else {
+      buttons[idx].classList.add('wrong');
+      buttons[q.answer].classList.add('correct');
+      feedback.textContent = 'Not quite. ' + q.explain;
+      feedback.className = 'quiz-feedback wrong';
+    }
+    setTimeout(() => {
+      current++;
+      if (current < questions.length) renderQuestion();
+      else showScore();
+    }, 1800);
+  }
+
+  function showScore() {
+    buildProgress();
+    const pct = Math.round((score / questions.length) * 100);
+    const msg = pct === 100 ? 'Perfect score.' : pct >= 70 ? 'Strong result.' : pct >= 50 ? 'Good effort — keep reviewing.' : 'Keep at it, you\'ve got this.';
+    document.getElementById('quiz-content').innerHTML = `
+      <div class="quiz-score">
+        <div class="quiz-score-num">${score}/${questions.length}</div>
+        <div style="font-size:1.1rem;margin:0.5rem 0 1rem;color:var(--muted);">${pct}% · ${msg}</div>
+        <button class="btn btn-primary" onclick="restartQuiz()">Try Again</button>
+      </div>
+    `;
+  }
+
+  function restartQuiz() {
+    current = 0; score = 0;
+    renderQuestion();
+  }
+
+  renderQuestion();
+</script>
+</body>
+</html>
